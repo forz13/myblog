@@ -13,10 +13,10 @@ class EnquiryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', TextType::class);
-        $builder->add('email', EmailType::class);
-        $builder->add('subject', TextType::class);
-        $builder->add('body', TextareaType::class);
+        $builder->add('name', TextType::class, ['label' => 'Имя']);
+        $builder->add('email', EmailType::class, ['label' => 'Почта']);
+        $builder->add('subject', TextType::class, ['label' => 'Тема']);
+        $builder->add('body', TextareaType::class, ['label' => 'Сообщение']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
