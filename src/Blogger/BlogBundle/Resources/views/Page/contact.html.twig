@@ -10,10 +10,10 @@
         </div>
     {% endfor %}
     <header>
-        <h1>Форма связи</h1>
+        <h1>Contact form</h1>
     </header>
 
-    <p>Хотите оставить сообщение?</p>
+    <p>Did you have any question?</p>
 
     {{ form_start(form, { 'action': path('BloggerBlogBundle_contact'), 'method': 'POST', 'attr': {'class': 'blogger'} }) }}
     {{ form_errors(form) }}
@@ -27,6 +27,6 @@
 
     {{ form_rest(form) }}
 
-    <input type="submit" value="Отправить"/>
+    <input type="submit" value="Send"/>
 
 {% endblock %}
