@@ -5,12 +5,18 @@
     <meta http-equiv="Content-Type" content="text/html" ; charset=utf-8"/>
     <title>{% block title %}Symblog{% endblock %} - Symblog</title>
     <!--[if lt IE 9]>
+
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
+
     <![endif]-->
+    <script src="{{asset('bundles/prism/prism.js') }}"></script>
     {% block stylesheets %}
         <link href='http://fonts.googleapis.com/css?family=Irish+Grover' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=La+Belle+Aurore' rel='stylesheet' type='text/css'>
         <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet"/>
+        <link href="{{ asset('bundles/prism/prism.css') }}"
+              type="text/css" rel="stylesheet"/>
     {% endblock %}
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
 </head>
@@ -31,9 +37,11 @@
         </div>
 
         <hgroup>
-            <h2>{% block blog_title %}<a href="{{ path('BloggerBlogBundle_homepage') }}">foRz home blog</a>{% endblock %}
+            <h2>{% block blog_title %}<a href="{{ path('BloggerBlogBundle_homepage') }}">foRz home
+                    blog</a>{% endblock %}
             </h2>
-            <h3>{% block blog_tagline %}<a href="{{ path('BloggerBlogBundle_homepage') }}">...about web-dev and similar</a>{% endblock %}</h3>
+            <h3>{% block blog_tagline %}<a href="{{ path('BloggerBlogBundle_homepage') }}">...about web-dev and
+                    similar</a>{% endblock %}</h3>
         </hgroup>
 
     </header>

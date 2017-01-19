@@ -229,4 +229,9 @@ class Comment
     {
         return $this->blog;
     }
+
+    public function __toString()
+    {
+        return $this->getComment();
+    }
 }

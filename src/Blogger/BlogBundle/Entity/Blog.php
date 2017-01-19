@@ -59,7 +59,7 @@ class Blog
     protected $blog;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(nullable=true, type="string", length=20)
      */
     protected $image;
 

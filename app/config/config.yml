@@ -70,3 +70,28 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+ivory_ck_editor:
+    input_sync: true
+    default_config: base_config
+    configs:
+        base_config:
+            extraPlugins: "codesnippet"
+    plugins:
+        codesnippet:
+            path:     "/bundles/back/ckeditor/plugins/codesnippet/"
+            filename: "plugin.js"
+
+
+easy_admin:
+    entities:
+        Blog:
+            class: Blogger\BlogBundle\Entity\Blog
+        #...
+            form:
+                fields:
+                    # ...
+                    - { property: 'blog', type: 'ckeditor' }
+        Comment:
+            class: Blogger\BlogBundle\Entity\Comment
+
