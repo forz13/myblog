@@ -2,64 +2,146 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html" ; charset=utf-8"/>
-    <title>{% block title %}Symblog{% endblock %} - Symblog</title>
-    <!--[if lt IE 9]>
-
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-
-
-    <![endif]-->
-    <script src="{{asset('bundles/prism/prism.js') }}"></script>
+    <title>/home/forz/blog-dev</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content=""/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        } </script>
     {% block stylesheets %}
-        <link href='http://fonts.googleapis.com/css?family=Irish+Grover' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=La+Belle+Aurore' rel='stylesheet' type='text/css'>
-        <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet"/>
-        <link href="{{ asset('bundles/prism/prism.css') }}"
-              type="text/css" rel="stylesheet"/>
+        <link href="{{ asset('css/style.css') }}" rel='stylesheet' type='text/css'/>
+        <link href="{{ asset('css/bootstrap.css') }}" rel='stylesheet' type='text/css'/>
+        <link href="{{ asset('bundles/prism/prism.css') }}" rel='stylesheet' type='text/css'/>
     {% endblock %}
+
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('bundles/prism/prism.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/move-top.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/easing.js') }}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+            });
+        });
+    </script>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
 </head>
 <body>
-
-<section id="wrapper">
-    <header id="header">
-        <div class="top">
-            {% block navigation %}
-                <nav>
-                    <ul class="navigation">
-                        <li><a href="{{ path('BloggerBlogBundle_homepage') }}">Home</a></li>
-                        <li><a href="{{ path('BloggerBlogBundle_about') }}">About</a></li>
-                        <li><a href="{{ path('BloggerBlogBundle_contact') }}">Contact</a></li>
-                    </ul>
-                </nav>
-            {% endblock %}
+<div class="header-top">
+    <div class="container">
+        <div class="head-main">
+            <a href="/"><img src="{{ asset('images/log.png') }}" alt=""/></a>
         </div>
-
-        <hgroup>
-            <h2>{% block blog_title %}<a href="{{ path('BloggerBlogBundle_homepage') }}">foRz home
-                    blog</a>{% endblock %}
-            </h2>
-            <h3>{% block blog_tagline %}<a href="{{ path('BloggerBlogBundle_homepage') }}">...about web-dev and
-                    similar</a>{% endblock %}</h3>
-        </hgroup>
-
-    </header>
-
-    <section class="main-col">
-        {% block body %}{% endblock %}
-    </section>
-    <aside class="sidebar">
-        {% block sidebar %}{% endblock %}
-    </aside>
-
-    <div id="footer">
-        {% block footer %}
-            forz13 home blog. My github account: <a href="https://github.com/forz13">forz13</a>
-        {% endblock %}
     </div>
-</section>
+</div>
+<div class="header">
+    <div class="container">
+        <div class="head">
+            <div class="navigation">
+                <span class="menu"></span>
+                <ul class="navig">
+                    <li><a href="{{ path('BloggerBlogBundle_homepage') }}">Home</a></li>
+                    <li><a href="{{ path('BloggerBlogBundle_about') }}">About</a></li>
+                    <li><a href="{{ path('BloggerBlogBundle_contact') }}">Contact</a></li>
+                </ul>
+            </div>
+            <div class="header-right">
+                <div class="search-bar">
+                    <input type="text" value="Search" onfocus="this.value = '';"
+                           onblur="if (this.value == '') {this.value = 'Search';}">
+                    <input type="submit" value="">
+                </div>
+                <ul>
+                    <li><a href="https://www.facebook.com/sergey.kalashnikov.161"><img src="{{ asset('images/facebook.png') }}" alt=""/></a></li>
+                    <li><a href="https://vk.com/f1nn13"><img src="{{ asset('images/vkontakte.png') }}" alt=""/></a></li>
+                    <li><a href="https://www.linkedin.com/in/sergey-kalashnikov-746030120"><img src="{{ asset('images/linkedin.png') }}" alt=""/></a></li>
+                    <li><a href="https://www.instagram.com/f1nn13"><img src="{{ asset('images/instagram.png') }}" alt=""/></a></li>
+                    <li><a href="https://github.com/forz13"><img src="{{ asset('images/github.png') }}" alt=""/></a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
 
+
+
+
+<script>
+    $("span.menu").click(function () {
+        $("ul.navig").slideToggle("slow", function () {
+        });
+    });
+</script>
+<div class="banner">
+    <div class="container">
+        <div class="banner-top">
+        </div>
+    </div>
+</div>
+<section>
+    {% block body %}{% endblock %}
+</section>
+<!--footer-starts-->
+<div class="footer">
+    <div class="container">
+        <div class="footer-text">
+            <p>© 2017 /home/forz/blog-dev. All Rights Reserved | <a href="https://github.com/forz13" target="_blank">My
+                    github account</a></p>
+        </div>
+    </div>
+</div>
+
+<!--footer-end-->
 {% block javascripts %}{% endblock %}
 </body>
+{#<body>#}
+
+
+{#<section id="wrapper">#}
+{#<header id="header">#}
+{#<div class="top">#}
+{#{% block navigation %}#}
+{#<nav>#}
+{#<ul class="navigation">#}
+{#<li><a href="{{ path('BloggerBlogBundle_homepage') }}">Home</a></li>#}
+{#<li><a href="{{ path('BloggerBlogBundle_about') }}">About</a></li>#}
+{#<li><a href="{{ path('BloggerBlogBundle_contact') }}">Contact</a></li>#}
+{#</ul>#}
+{#</nav>#}
+{#{% endblock %}#}
+{#</div>#}
+
+{#<hgroup>#}
+{#<h2>{% block blog_title %}<a href="{{ path('BloggerBlogBundle_homepage') }}">foRz home#}
+{#blog</a>{% endblock %}#}
+{#</h2>#}
+{#<h3>{% block blog_tagline %}<a href="{{ path('BloggerBlogBundle_homepage') }}">...about web-dev and#}
+{#similar</a>{% endblock %}</h3>#}
+{#</hgroup>#}
+
+{#</header>#}
+
+{#<section class="main-col">#}
+{#{% block body %}{% endblock %}#}
+{#</section>#}
+{#<aside class="sidebar">#}
+{#{% block sidebar %}{% endblock %}#}
+{#</aside>#}
+
+{#<div id="footer">#}
+{#{% block footer %}#}
+{#forz13 home blog. My github account: <a href="https://github.com/forz13">forz13</a>#}
+{#{% endblock %}#}
+{#</div>#}
+{#</section>#}
+
+{#{% block javascripts %}{% endblock %}#}
+{#</body>#}
 </html>
