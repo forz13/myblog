@@ -79,7 +79,7 @@ ivory_ck_editor:
             extraPlugins: "codesnippet"
     plugins:
         codesnippet:
-            path:     "/bundles/back/ckeditor/plugins/codesnippet/"
+            path:     "/ckeditor/plugins/codesnippet/"
             filename: "plugin.js"
 
 
