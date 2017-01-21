@@ -100,7 +100,11 @@ easy_admin:
             form:
                 fields:
                     # ...
+                    - { property: 'title'}
                     - { property: 'blog', type: 'ckeditor' }
+                    - { property: 'image'}
+                    - { property: 'author'}
+                    - { property: 'tags'}
         Comment:
             class: Blogger\BlogBundle\Entity\Comment
 
