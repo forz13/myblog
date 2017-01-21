@@ -75,12 +75,21 @@ ivory_ck_editor:
     input_sync: true
     default_config: base_config
     configs:
-        base_config:
-            extraPlugins: "codesnippet"
+            base_config:
+                extraPlugins: "codesnippet,widget,lineutils,widgetselection"
     plugins:
-        codesnippet:
-            path:     "/ckeditor/plugins/codesnippet/"
-            filename: "plugin.js"
+            codesnippet:
+                path:     "/ckeditor/plugins/codesnippet/"
+                filename: "plugin.js"
+            widget:
+                path:     "/ckeditor/plugins/widget/"
+                filename: "plugin.js"
+            lineutils:
+                path:     "/ckeditor/plugins/lineutils/"
+                filename: "plugin.js"
+            widgetselection:
+                path:     "/ckeditor/plugins/widgetselection/"
+                filename: "plugin.js"
 
 
 easy_admin:
