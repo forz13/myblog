@@ -34,20 +34,20 @@
         <div class="container">
             <div class="about-main">
                 <div class="col-md-8 about-left">
-                    {% for blog in blogs %}
+                    {% if blogs[0] is defined %}
                         <div class="about-two">
                             <h2>
-                                <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">{{ blog.title }}</a>
+                                <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}">{{ blogs[0].title }}</a>
                             </h2>
-                            {% if blog.image is defined %}
-                            <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}"><img
-                                        src="{{ asset(['images/', blog.image]|join) }}"/></a>
+                            {% if blogs[0].image is defined %}
+                                <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}"><img
+                                            src="{{ asset(['images/', blogs[0].image]|join) }}"/></a>
                             {% endif %}
-                            {{ blog.blog(500) | raw }}
-                            <p>Posted by {{ blog.author }} on {{ blog.created|date('h:iA') }}
-                                comments({{ blog.comments|length }})</p>
+                            {{ blogs[0].blog(500) | raw }}
+                            <p>Posted by {{ blogs[0].author }} on {{ blogs[0].created|date('h:iA') }}
+                                comments({{ blogs[0].comments|length }})</p>
                             <div class="about-btn">
-                                <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">Read More</a>
+                                <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}">Read More</a>
                             </div>
                             <ul>
                                 <li><p>Share : </p></li>
@@ -58,87 +58,38 @@
                                 <li><a href="#"><span class="drbl"> </span></a></li>
                             </ul>
                         </div>
-                    {% endfor %}
+                    {% endif %}
+                    {% set popBlog=blogs|slice(1) %}
                     <div class="about-tre">
-                        <div class="a-1">
-                            <div class="col-md-6 abt-left">
-                                <a href="single.html"><img src="images/c-3.jpg" alt=""/></a>
-                                <h6>Find The Most</h6>
-                                <h3><a href="single.html">Tasty Coffee</a></h3>
-                                <p>Vivamus interdum diam diam, non faucibus tortor consequat vitae. Proin sit amet augue
-                                    sed massa pellentesque viverra. Suspendisse iaculis purus eget est pretium aliquam
-                                    ut sed diam.</p>
-                                <label>May 29, 2015</label>
+                        {% for  blogMinilist in popBlog|batch(2) %}
+                            <div class="a-1">
+                                {% for blog in blogMinilist %}
+                                    <div class="col-md-6 abt-left">
+                                        {% if blog.image is defined %}
+                                            <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}"><img
+                                                        src="{{ asset(['images/', blog.image]|join) }}" alt=""/></a>
+                                        {% endif %}
+                                        <h3>
+                                            <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">{{ blog.title }}</a>
+                                        </h3>
+                                        <p>{{ blog.blog(100) | raw }}</p>
+                                        <label>Posted by {{ blog.author }} on {{ blog.created|date('h:iA') }}
+                                            comments({{ blog.comments|length }})</label>
+                                        <div class="about-btn">
+                                            <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}">Read More</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
-                            <div class="col-md-6 abt-left">
-                                <a href="single.html"><img src="images/c-4.jpg" alt=""/></a>
-                                <h6>Find The Most</h6>
-                                <h3><a href="single.html">Tasty Coffee</a></h3>
-                                <p>Vivamus interdum diam diam, non faucibus tortor consequat vitae. Proin sit amet augue
-                                    sed massa pellentesque viverra. Suspendisse iaculis purus eget est pretium aliquam
-                                    ut sed diam.</p>
-                                <label>May 29, 2015</label>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="a-1">
-                            <div class="col-md-6 abt-left">
-                                <a href="single.html"><img src="images/c-5.jpg" alt=""/></a>
-                                <h6>Find The Most</h6>
-                                <h3><a href="single.html">Tasty Coffee</a></h3>
-                                <p>Vivamus interdum diam diam, non faucibus tortor consequat vitae. Proin sit amet augue
-                                    sed massa pellentesque viverra. Suspendisse iaculis purus eget est pretium aliquam
-                                    ut sed diam.</p>
-                                <label>May 29, 2015</label>
-                            </div>
-                            <div class="col-md-6 abt-left">
-                                <a href="single.html"><img src="images/c-6.jpg" alt=""/></a>
-                                <h6>Find The Most</h6>
-                                <h3><a href="single.html">Tasty Coffee</a></h3>
-                                <p>Vivamus interdum diam diam, non faucibus tortor consequat vitae. Proin sit amet augue
-                                    sed massa pellentesque viverra. Suspendisse iaculis purus eget est pretium aliquam
-                                    ut sed diam.</p>
-                                <label>May 29, 2015</label>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="a-1">
-                            <div class="col-md-6 abt-left">
-                                <a href="single.html"><img src="images/c-7.jpg" alt=""/></a>
-                                <h6>Find The Most</h6>
-                                <h3><a href="single.html">Tasty Coffee</a></h3>
-                                <p>Vivamus interdum diam diam, non faucibus tortor consequat vitae. Proin sit amet augue
-                                    sed massa pellentesque viverra. Suspendisse iaculis purus eget est pretium aliquam
-                                    ut sed diam.</p>
-                                <label>May 29, 2015</label>
-                            </div>
-                            <div class="col-md-6 abt-left">
-                                <a href="single.html"><img src="images/c-8.jpg" alt=""/></a>
-                                <h6>Find The Most</h6>
-                                <h3><a href="single.html">Tasty Coffee</a></h3>
-                                <p>Vivamus interdum diam diam, non faucibus tortor consequat vitae. Proin sit amet augue
-                                    sed massa pellentesque viverra. Suspendisse iaculis purus eget est pretium aliquam
-                                    ut sed diam.</p>
-                                <label>May 29, 2015</label>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-md-4 about-right heading">
                     <div class="abt-1">
-                        <h3>ABOUT US</h3>
-                        <div class="abt-one">
-                            <img src="images/c-2.jpg" alt=""/>
-                            <p>Quisque non tellus vitae mauris luctus aliquam sit amet id velit. Mauris ut dapibus
-                                nulla, a dictum neque.</p>
-                            <div class="a-btn">
-                                <a href="single.html">Read More</a>
-                            </div>
-                        </div>
+                        <h3>CATEGORIES</h3>
                     </div>
                     <div class="abt-2">
-                        <h3>YOU MIGHT ALSO LIKE</h3>
+                        <h3>MOST COMMENTED</h3>
                         <div class="might-grid">
                             <div class="grid-might">
                                 <a href="single.html"><img src="images/c-12.jpg" class="img-responsive" alt=""> </a>
@@ -176,31 +127,12 @@
                     <div class="abt-2">
                         <h3>ARCHIVES</h3>
                         <ul>
-                            <li><a href="single.html">Lorem Ipsum is simply dummy text of the printing and typesetting
-                                    industry. </a></li>
-                            <li><a href="single.html">Lorem Ipsum has been the industry's standard dummy text ever since
-                                    the 1500s</a></li>
-                            <li><a href="single.html">When an unknown printer took a galley of type and scrambled it to
-                                    make a type specimen book. </a></li>
-                            <li><a href="single.html">It has survived not only five centuries, but also the leap into
-                                    electronic typesetting</a></li>
-                            <li><a href="single.html">Remaining essentially unchanged. It was popularised in the 1960s
-                                    with the release of </a></li>
-                            <li><a href="single.html">Letraset sheets containing Lorem Ipsum passages, and more recently
-                                    with desktop publishing </a></li>
-                            <li><a href="single.html">Software like Aldus PageMaker including versionsof Lorem
-                                    Ipsum.</a></li>
+                            {% for blog in blogs|reverse %}
+                                <li>
+                                    <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">{{ blog.title }}</a>
+                                </li>
+                            {% endfor %}
                         </ul>
-                    </div>
-                    <div class="abt-2">
-                        <h3>NEWS LETTER</h3>
-                        <div class="news">
-                            <form>
-                                <input type="text" value="Email" onfocus="this.value = '';"
-                                       onblur="if (this.value == '') {this.value = 'Email';}"/>
-                                <input type="submit" value="Subscribe">
-                            </form>
-                        </div>
                     </div>
                 </div>
                 <div class="clearfix"></div>
