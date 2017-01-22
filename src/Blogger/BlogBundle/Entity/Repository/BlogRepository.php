@@ -2,6 +2,9 @@
 
 namespace Blogger\BlogBundle\Entity\Repository;
 
+use Blogger\BlogBundle\Entity\Blog;
+use Doctrine\ORM\Query\ResultSetMapping;
+
 /**
  * BlogRepository
  *
@@ -10,6 +13,10 @@ namespace Blogger\BlogBundle\Entity\Repository;
  */
 class BlogRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param null $limit
+     * @return array
+     */
     public function getLatestBlogs($limit = null)
     {
         $qb = $this->createQueryBuilder('b')
@@ -22,4 +29,35 @@ class BlogRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public function getMostCommented($limit = 5)
+    {
+        $em = $this->getEntityManager();
+        $rsm = new ResultSetMapping();
+        $rsm->addEntityResult(Blog::class , 'b');
+        $rsm->addFieldResult('b', 'id', 'id');
+        $rsm->addFieldResult('b', 'title', 'title');
+        $rsm->addFieldResult('b', 'blog', 'blog');
+        $rsm->addFieldResult('b', 'image', 'image');
+        $sql = 'select * from blog b
+          inner join (
+                  select blog_id, count(*) AS commentCount
+                  from comment
+                  group by blog_id
+               ) c
+           on b.id = c.blog_id
+           order by c.commentCount desc
+           limit ?';
+        $query = $em->createNativeQuery($sql, $rsm);
+        $query->setParameter(1, $limit);
+        $blogs = $query->getResult();
+        return $blogs;
+    }
+
+
 }

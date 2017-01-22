@@ -43,9 +43,11 @@
                                 <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}"><img
                                             src="{{ asset(['images/', blogs[0].image]|join) }}"/></a>
                             {% endif %}
-                            {{ blogs[0].blog(500) | raw }}
-                            <p>Posted by {{ blogs[0].author }} on {{ blogs[0].created|date('h:iA') }}
-                                comments({{ blogs[0].comments|length }})</p>
+                            {{ blogs[0].blog(500) | slice(0, 500) | raw }}...
+                            <p>Posted by {{ blogs[0].author }} on {{ blogs[0].created|date('j F,Y') }}
+                                <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}">comments({{ blogs[0].comments|length }}
+                                    )</a>
+                            </p>
                             <div class="about-btn">
                                 <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}">Read More</a>
                             </div>
@@ -62,22 +64,21 @@
                     {% set popBlog=blogs|slice(1) %}
                     <div class="about-tre">
                         {% for  blogMinilist in popBlog|batch(2) %}
-                            <div class="a-1">
+                            <div class="row match-my-cols">
                                 {% for blog in blogMinilist %}
                                     <div class="col-md-6 abt-left">
+                                        <h3>
+                                            <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">{{ blog.title }}</a>
+                                        </h3>
                                         {% if blog.image is defined %}
                                             <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}"><img
                                                         src="{{ asset(['images/', blog.image]|join) }}" alt=""/></a>
                                         {% endif %}
-                                        <h3>
-                                            <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">{{ blog.title }}</a>
-                                        </h3>
-                                        <p>{{ blog.blog(100) | raw }}</p>
-                                        <label>Posted by {{ blog.author }} on {{ blog.created|date('h:iA') }}
-                                            comments({{ blog.comments|length }})</label>
-                                        <div class="about-btn">
-                                            <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}">Read More</a>
-                                        </div>
+                                        {{ blog.blog|slice(0, 300) | raw }}
+                                        <p>
+                                            <label><a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}">Read
+                                                    More</a></label>
+                                        </p>
                                     </div>
                                 {% endfor %}
                             </div>
@@ -90,39 +91,17 @@
                     </div>
                     <div class="abt-2">
                         <h3>MOST COMMENTED</h3>
-                        <div class="might-grid">
-                            <div class="grid-might">
-                                <a href="single.html"><img src="images/c-12.jpg" class="img-responsive" alt=""> </a>
+                        {% for topBlog in topBlogs %}
+                            <div class="might-grid">
+                                <div class="might-top">
+                                    <h4>
+                                        <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': topBlog.id }) }}">{{ topBlog.title }}</a>
+                                    </h4>
+                                    <p>{{ topBlog.blog|slice(0, 50) | raw }}...</p>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="might-top">
-                                <h4><a href="single.html">Duis consectetur gravida</a></h4>
-                                <p>Nullam non magna lobortis, faucibus erat eu, consequat justo. Suspendisse commodo
-                                    nibh odio.</p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="might-grid">
-                            <div class="grid-might">
-                                <a href="single.html"><img src="images/c-10.jpg" class="img-responsive" alt=""> </a>
-                            </div>
-                            <div class="might-top">
-                                <h4><a href="single.html">Duis consectetur gravida</a></h4>
-                                <p> Nullam non magna lobortis, faucibus erat eu, consequat justo. Suspendisse commodo
-                                    nibh odio.</p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="might-grid">
-                            <div class="grid-might">
-                                <a href="single.html"><img src="images/c-11.jpg" class="img-responsive" alt=""> </a>
-                            </div>
-                            <div class="might-top">
-                                <h4><a href="single.html">Duis consectetur gravida</a></h4>
-                                <p> Nullam non magna lobortis, faucibus erat eu, consequat justo. Suspendisse commodo
-                                    nibh odio.</p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                        {% endfor %}
                     </div>
                     <div class="abt-2">
                         <h3>ARCHIVES</h3>
