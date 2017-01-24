@@ -1,34 +1,5 @@
 {# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig #}
 {% extends 'BloggerBlogBundle::layout.html.twig' %}
-
-{#{% block body %}#}
-    {#{% for blog in blogs %}#}
-        {#<article class="blog">#}
-            {#<div class="date">#}
-                {#<time datetime="{{ blog.created|date('c') }}">{{ blog.created|date('l, F j, Y') }}</time>#}
-            {#</div>#}
-            {#<header>#}
-                {#<h2><a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">{{ blog.title }}</a></h2>#}
-            {#</header>#}
-            {#{% if blog.image %}#}
-                {#<img src="{{ asset(['images/', blog.image]|join) }}"/>#}
-            {#{% endif %}#}
-            {#<div class="snippet">#}
-                {#<p>{{ blog.blog(500) | raw }}</p>#}
-                {#<p class="continue"><a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">Continue#}
-                        {#reading...</a></p>#}
-            {#</div>#}
-
-            {#<footer class="meta">#}
-                {#<p>Comments: -</p>#}
-                {#<p>Posted by <span class="highlight">{{ blog.author }}</span> at {{ blog.created|date('h:iA') }}</p>#}
-                {#<p>Tags: <span class="highlight">{{ blog.tags }}</span></p>#}
-            {#</footer>#}
-        {#</article>#}
-    {#{% else %}#}
-        {#<p>There are no blog entries for symblog</p>#}
-    {#{% endfor %}#}
-{#{% endblock %}#}
 {% block body %}
     <div class="about">
         <div class="container">
@@ -43,7 +14,8 @@
                                 <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}"><img
                                             src="{{ asset(['images/', blogs[0].image]|join) }}"/></a>
                             {% endif %}
-                            {{ blogs[0].blog(500) | slice(0, 500) | raw }}...
+                            {{ blogs[0].blog |striptags|length > 1000 ? blogs[0].blog|striptags|slice(0,1000) : blogs[0].blog|striptags }}
+                            {{ blogs[0].blog |striptags|length > 1000 ? '...' : '' }}
                             <p>Posted by {{ blogs[0].author }} on {{ blogs[0].created|date('j F,Y') }}
                                 <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}">comments({{ blogs[0].comments|length }}
                                     )</a>
@@ -74,9 +46,10 @@
                                             <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}"><img
                                                         src="{{ asset(['images/', blog.image]|join) }}" alt=""/></a>
                                         {% endif %}
-                                        {{ blog.blog|slice(0, 300) | raw }}
+                                        {{ blog.blog |striptags|length > 500 ? blog.blog|striptags|slice(0,500) : blog.blog|striptags }}
+                                        {{ blog.blog |striptags|length > 500 ? '...' : '' }}
                                         <p>
-                                            <label><a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blogs[0].id }) }}">Read
+                                            <label><a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">Read
                                                     More</a></label>
                                         </p>
                                     </div>
@@ -97,7 +70,10 @@
                                     <h4>
                                         <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': topBlog.id }) }}">{{ topBlog.title }}</a>
                                     </h4>
-                                    <p>{{ topBlog.blog|slice(0, 50) | raw }}...</p>
+                                    <p>
+                                        {{ topBlog.blog |striptags|length > 500 ? topBlog.blog|striptags|slice(0,500) : topBlog.blog|striptags }}
+                                        {{ topBlog.blog |striptags|length > 500 ? '...' : '' }}
+                                    </p>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>

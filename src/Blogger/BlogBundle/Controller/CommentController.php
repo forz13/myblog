@@ -19,37 +19,31 @@ class CommentController extends Controller
 
         $comment = new Comment();
         $comment->setBlog($blog);
-        $form   = $this->createForm(CommentType::class, $comment);
+        $form = $this->createForm(CommentType::class, $comment);
 
         return $this->render('BloggerBlogBundle:Comment:form.html.twig', array(
             'comment' => $comment,
-            'form'   => $form->createView()
+            'form'    => $form->createView()
         ));
     }
 
     public function createAction(Request $request, $blog_id)
     {
         $blog = $this->getBlog($blog_id);
-
-        $comment  = new Comment();
+        $comment = new Comment();
         $comment->setBlog($blog);
-        $form    = $this->createForm(CommentType::class, $comment);
+        $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()
-                    ->getManager();
-                $em->persist($comment);
-                $em->flush();
-
-                return $this->redirect($this->generateUrl('BloggerBlogBundle_blog_show', array(
-                        'id' => $comment->getBlog()->getId())) .
-                    '#comment-' . $comment->getId()
-                );
-            }
+            $em = $this->getDoctrine()
+                ->getManager();
+            $em->persist($comment);
+            $em->flush();
+            return $this->redirect($this->generateUrl('BloggerBlogBundle_blog_show', array(
+                    'id' => $comment->getBlog()->getId())) .
+                '#comment-' . $comment->getId()
+            );
         }
-
         return $this->render('BloggerBlogBundle:Comment:create.html.twig', array(
             'comment' => $comment,
             'form'    => $form->createView()

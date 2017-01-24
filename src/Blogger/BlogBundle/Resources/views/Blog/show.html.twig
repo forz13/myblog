@@ -3,26 +3,32 @@
 {% block title %}{{ blog.title }}{% endblock %}
 
 {% block body %}
-    <article class="blog">
-        <header>
-            <div class="date">
-                <time datetime="{{ blog.created|date('c') }}">{{ blog.created|date('l, F j, Y') }}</time>
+    <div class="single">
+        <div class="container">
+            <div class="single-top">
+                <div class=" single-grid">
+                    <h4>{{ blog.title }}</h4>
+                    <ul class="blog-ic">
+                        <li><a href="#"><span> <i class="glyphicon glyphicon-user"> </i>{{ blog.author }}</span> </a>
+                        </li>
+                        <li><span><i class="glyphicon glyphicon-time"> </i>{{ blog.created|date('j F,Y') }}</span></li>
+                    </ul>
+                    {% if blog.image is defined %}
+                        <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}"><img
+                                    class="img-responsive"
+                                    src="{{ asset(['images/', blog.image]|join) }}"/></a>
+                    {% endif %}
+                    {{ blog.blog |raw }}
+                </div>
+                <div class="comments heading">
+                    <h3>Comments</h3>
+                    {% include 'BloggerBlogBundle:Comment:index.html.twig' with { 'comments': comments } %}
+                </div>
+                <div class="comment-bottom heading">
+                    <h3>Leave a Comment</h3>
+                    {{ render(controller('BloggerBlogBundle:Comment:new',{ 'blog_id': blog.id })) }}
+                </div>
             </div>
-            <h2>{{ blog.title }}</h2>
-        </header>
-        {% if blog.image %}
-            <img src="{{ asset(['images/', blog.image]|join) }}" alt="{{ blog.title }} image not found" class="large"/>
-        {% endif %}
-        <div>
-            <p>{{ blog.blog | raw }}</p>
         </div>
-    </article>
-    <section class="comments" id="comments">
-        <section class="previous-comments">
-            <h3>Comments</h3>
-            {% include 'BloggerBlogBundle:Comment:index.html.twig' with { 'comments': comments } %}
-        </section>
-        <h3>Add Comment</h3>
-        {{ render(controller('BloggerBlogBundle:Comment:new',{ 'blog_id': blog.id })) }}
-    </section>
+    </div>
 {% endblock %}
