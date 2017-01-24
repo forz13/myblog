@@ -39,7 +39,7 @@ class BlogRepository extends \Doctrine\ORM\EntityRepository
     {
         $em = $this->getEntityManager();
         $rsm = new ResultSetMapping();
-        $rsm->addEntityResult(Blog::class , 'b');
+        $rsm->addEntityResult(Blog::class, 'b');
         $rsm->addFieldResult('b', 'id', 'id');
         $rsm->addFieldResult('b', 'title', 'title');
         $rsm->addFieldResult('b', 'blog', 'blog');
@@ -55,9 +55,7 @@ class BlogRepository extends \Doctrine\ORM\EntityRepository
            limit ?';
         $query = $em->createNativeQuery($sql, $rsm);
         $query->setParameter(1, $limit);
-        $blogs = $query->getResult();
-        return $blogs;
+        return $query->getResult();
     }
-
 
 }
