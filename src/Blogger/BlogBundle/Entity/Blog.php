@@ -11,6 +11,8 @@ namespace Blogger\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Blogger\BlogBundle\Entity\Category;
+
 
 /**
  * @ORM\Entity(repositoryClass="Blogger\BlogBundle\Entity\Repository\BlogRepository")
@@ -47,6 +49,12 @@ class Blog
      * @ORM\Column(type="string")
      */
     protected $title;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    protected $category;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -285,4 +293,29 @@ class Blog
     {
         return $this->getTitle();
     }
+
+    /**
+     * Set category
+     *
+     * @param \Blogger\BlogBundle\Entity\Category $category
+     *
+     * @return Blog
+     */
+    public function setCategory(Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Blogger\BlogBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
 }

@@ -105,6 +105,9 @@ easy_admin:
                     - { property: 'image'}
                     - { property: 'author'}
                     - { property: 'tags'}
+                    - { property: 'category'}
         Comment:
             class: Blogger\BlogBundle\Entity\Comment
+        Category:
+             class: Blogger\BlogBundle\Entity\Category
 
