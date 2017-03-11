@@ -6,6 +6,7 @@ namespace Blogger\BlogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Blogger\BlogBundle\Entity\Enquiry;
 use Blogger\BlogBundle\Form\EnquiryType;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 
 class PageController extends Controller
@@ -21,7 +22,7 @@ class PageController extends Controller
             ->getMostCommented(3);
 
         return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
-            'blogs' => $blogs,
+            'blogs'    => $blogs,
             'topBlogs' => $mostCommentedBlogs
         ));
     }
@@ -31,6 +32,11 @@ class PageController extends Controller
         return $this->render('BloggerBlogBundle:Page:about.html.twig');
     }
 
+    /**
+     * Send contact email
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function contactAction(Request $request)
     {
         $enquiry = new Enquiry();

@@ -13,6 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CommentController extends Controller
 {
+    /**
+     * Get comment by id
+     * @param $blog_id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function newAction($blog_id)
     {
         $blog = $this->getBlog($blog_id);
@@ -27,6 +32,12 @@ class CommentController extends Controller
         ));
     }
 
+    /**
+     * Create blog
+     * @param Request $request
+     * @param $blog_id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function createAction(Request $request, $blog_id)
     {
         $blog = $this->getBlog($blog_id);
@@ -50,6 +61,11 @@ class CommentController extends Controller
         ));
     }
 
+    /**
+     * Get blog by id
+     * @param $blog_id
+     * @return \Blogger\BlogBundle\Entity\Blog|null|object
+     */
     protected function getBlog($blog_id)
     {
         $em = $this->getDoctrine()

@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class BlogController extends Controller
 {
     /**
+     * Show blog
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
