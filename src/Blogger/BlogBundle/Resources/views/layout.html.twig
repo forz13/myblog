@@ -5,6 +5,19 @@
     {{ parent() }}
     <link href="{{ asset('bundles/bloggerblog/css/blog.css') }}" type="text/css" rel="stylesheet"/>
 {% endblock %}
-{% block sidebar %}
-    Sidebar content
-{% endblock %}
+ {% block body %}
+     <div class="about">
+         <div class="container">
+             <div class="about-main">
+                 <div class="col-md-8 about-left">
+                     {% block content %}
+                     {% endblock %}
+                 </div>
+                 {% block sidebar %}
+                     {{ render(controller('BloggerBlogBundle:Page:sidebar' )) }}
+                 {% endblock %}
+                 <div class="clearfix"></div>
+             </div>
+         </div>
+     </div>
+ {% endblock %}

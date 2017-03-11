@@ -1,0 +1,47 @@
+{# src/Blogger/BlogBundle/Resources/views/sidebar.html.twig #}
+
+<div class="col-md-4 about-right heading">
+    <div class="abt-1">
+        <h3>CATEGORIES</h3>
+        {% for category in categoryList %}
+            <div class="might-grid">
+                <div class="might-top">
+                    <h4>
+                        <a href="{{ path('BloggerBlogBundle_category', { 'category_id': category.id }) }}">{{ category.name }}
+                            ({{ category.blogs_count }})</a>
+                    </h4>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="abt-2">
+        <h3>MOST COMMENTED</h3>
+        {% for topBlog in topBlogs %}
+            <div class="might-grid">
+                <div class="might-top">
+                    <h4>
+                        <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': topBlog.id }) }}">{{ topBlog.title }}</a>
+                    </h4>
+                    <p>
+                        {{ topBlog.blog |striptags|length > 500 ? topBlog.blog|striptags|slice(0,500) : topBlog.blog|striptags }}
+                        {{ topBlog.blog |striptags|length > 500 ? '...' : '' }}
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="abt-2">
+        <h3>ARCHIVES</h3>
+        <ul>
+            {% for blog in topBlogs|reverse %}
+                <li>
+                    <a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">{{ blog.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+

@@ -18,13 +18,36 @@ class PageController extends Controller
 
         $blogs = $em->getRepository('BloggerBlogBundle:Blog')
             ->getLatestBlogs();
+
+        return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
+            'blogs' => $blogs,
+        ));
+    }
+
+    public function categoryAction($category_id)
+    {
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $blogs = $em->getRepository('BloggerBlogBundle:Blog')
+            ->getCategoryBlogs($category_id);
+
+        return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
+            'blogs' => $blogs,
+        ));
+    }
+
+    public function sidebarAction()
+    {
+        $em = $this->getDoctrine()
+            ->getManager();
+
         $mostCommentedBlogs = $em->getRepository('BloggerBlogBundle:Blog')
             ->getMostCommented(3);
 
         $categoryList = $em->getRepository('BloggerBlogBundle:Category')->getCategoryList();
 
-        return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
-            'blogs'        => $blogs,
+        return $this->render('@BloggerBlog/sidebar.html.twig', array(
             'topBlogs'     => $mostCommentedBlogs,
             'categoryList' => $categoryList
         ));
