@@ -61,6 +61,16 @@
                 <div class="col-md-4 about-right heading">
                     <div class="abt-1">
                         <h3>CATEGORIES</h3>
+                        {% for category in categoryList %}
+                            <div class="might-grid">
+                                <div class="might-top">
+                                    <h4>
+                                        <a href="">{{ category.name }}({{ category.blogs_count }})</a>
+                                    </h4>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        {% endfor %}
                     </div>
                     <div class="abt-2">
                         <h3>MOST COMMENTED</h3>

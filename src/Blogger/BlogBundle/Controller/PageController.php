@@ -21,9 +21,12 @@ class PageController extends Controller
         $mostCommentedBlogs = $em->getRepository('BloggerBlogBundle:Blog')
             ->getMostCommented(3);
 
+        $categoryList = $em->getRepository('BloggerBlogBundle:Category')->getCategoryList();
+
         return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
-            'blogs'    => $blogs,
-            'topBlogs' => $mostCommentedBlogs
+            'blogs'        => $blogs,
+            'topBlogs'     => $mostCommentedBlogs,
+            'categoryList' => $categoryList
         ));
     }
 

@@ -31,6 +31,16 @@ class BlogRepository extends EntityRepository
             ->getResult();
     }
 
+    public function getCountBlogsWithCategory($categoryId)
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->select('count(b.id)')
+            ->where('b.category = :category_id')
+            ->setParameter('category_id', $categoryId);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
 
     /**
      * @param int $limit
