@@ -69,9 +69,15 @@ swiftmailer:
     host:      "%mailer_host%"
     username:  "%mailer_user%"
     password:  "%mailer_password%"
-    encryption: "%mailer_encryption%"
-    auth_mode: "%mailer_auth_mode%"
     spool:     { type: memory }
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: Blogger\BlogBundle\Entity\User
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
 
 ivory_ck_editor:
     input_sync: true
@@ -112,4 +118,14 @@ easy_admin:
             class: Blogger\BlogBundle\Entity\Comment
         Category:
              class: Blogger\BlogBundle\Entity\Category
-
+        User:
+                    class: Blogger\BlogBundle\Entity\User
+                    form:
+                        fields:
+                            - username
+                            - email
+                            - enabled
+                            - lastLogin
+                            # if administrators are allowed to edit users' passwords and roles, add this:
+                            - { property: 'plainPassword', type: 'text', type_options: { required: false } }
+                            - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
