@@ -8,6 +8,11 @@
         <div class="container">
             <div class="single-top">
                 <h3>Add comment for blog post: {{ comment.blog.title }}</h3>
+                {% for flashMessage in app.session.flashbag.get('blogger-error') %}
+                    <div class="blogger-error">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
                 <div class="comment-bottom heading">
                     {% include 'BloggerBlogBundle:Comment:form.html.twig' with { 'form': form } %}
                 </div>

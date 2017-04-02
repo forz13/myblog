@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace Blogger\BlogBundle\Controller;
 

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Blogger\BlogBundle\Entity\Comment;
 use Blogger\BlogBundle\Form\CommentType;
 use Symfony\Component\HttpFoundation\Request;
+use ReCaptcha\ReCaptcha; // Include the recaptcha lib
 
 /**
  * Comment controller.
@@ -28,7 +29,8 @@ class CommentController extends Controller
 
         return $this->render('BloggerBlogBundle:Comment:form.html.twig', array(
             'comment' => $comment,
-            'form'    => $form->createView()
+            'form' => $form->createView(),
+            'recaptchaKey' => $this->getParameter('recaptchakey')
         ));
     }
 
@@ -45,19 +47,26 @@ class CommentController extends Controller
         $comment->setBlog($blog);
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        $recaptchaKey = $this->getParameter('recaptchakey');
+        $recaptcha = new ReCaptcha($recaptchaKey);
+        $recaptchaResp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
+        if ($form->isValid() && $recaptchaResp->isSuccess()) {
             $em = $this->getDoctrine()
                 ->getManager();
             $em->persist($comment);
             $em->flush();
+            $this->get('session')->getFlashBag()->add('blogger-notice', 'Your comment was successfully sent. Thank you!');
             return $this->redirect($this->generateUrl('BloggerBlogBundle_blog_show', array(
                     'id' => $comment->getBlog()->getId())) .
                 '#comment-' . $comment->getId()
             );
+        } else if ($form->isValid() && !$recaptchaResp->isSuccess()) {
+            $this->get('session')->getFlashBag()->add('blogger-error', 'Invalid recaptcha');
         }
         return $this->render('BloggerBlogBundle:Comment:create.html.twig', array(
             'comment' => $comment,
-            'form'    => $form->createView()
+            'form' => $form->createView(),
+            'recaptchaKey' => $recaptchaKey
         ));
     }
 

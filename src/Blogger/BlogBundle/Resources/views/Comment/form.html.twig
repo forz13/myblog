@@ -1,7 +1,12 @@
 {# src/Blogger/BlogBundle/Resources/views/Comment/form.html.twig #}
-{{ form_start(form, { 'action': path('BloggerBlogBundle_comment_create' , { 'blog_id' : comment.blog.id }), 'method': 'POST', 'attr': {'class': 'blogger'} }) }}
+{% import "Macros/form_elements.html.twig" as formElements %}
 
-    {{ form_widget(form) }}
+{{ form_start(form,
+{ 'action': path('BloggerBlogBundle_comment_create' ,
+    { 'blog_id' : comment.blog.id }), 'method': 'POST', 'attr': {'class': 'blogger'} }) }}
+{{ form_widget(form) }}
+ {{ formElements.recaptcha(recaptchaKey) }}
 <p>
     <input type="submit" value="Submit">
 </p>
+{{ form_end(form) }}

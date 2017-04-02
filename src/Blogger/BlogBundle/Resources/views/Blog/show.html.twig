@@ -21,6 +21,11 @@
                     {{ blog.blog |raw }}
                 </div>
                 <div class="comments heading">
+                    {% for flashMessage in app.session.flashbag.get('blogger-notice') %}
+                        <div class="blogger-notice">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
                     <h3>Comments</h3>
                     {% include 'BloggerBlogBundle:Comment:index.html.twig' with { 'comments': comments } %}
                 </div>
