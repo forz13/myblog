@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class EnquiryType extends AbstractType
 {
@@ -17,6 +18,7 @@ class EnquiryType extends AbstractType
         $builder->add('email', EmailType::class, ['attr' => ['placeholder' => 'email'], 'label' => false]);
         $builder->add('subject', TextType::class, ['attr' => ['placeholder' => 'subject'], 'label' => false]);
         $builder->add('body', TextareaType::class, ['label' => false]);
+        $builder->add('save', SubmitType::class, ['label' => 'Send']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

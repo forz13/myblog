@@ -2,3 +2,11 @@ services:
 #    blogger_blog.example:
 #        class: Blogger\BlogBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+     blogger_blog.recaptcha:
+         class: ReCaptcha\ReCaptcha
+         arguments: ["recaptchaServerKey"]
+
+     blogger_blog.captcha:
+         class: Blogger\BlogBundle\Service\CaptchaService
+         arguments: ["@blogger_blog.recaptcha", '%recaptchaClientKey%','%recaptchaServerKey%']

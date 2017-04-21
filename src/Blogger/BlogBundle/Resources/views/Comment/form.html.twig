@@ -4,9 +4,8 @@
 {{ form_start(form,
 { 'action': path('BloggerBlogBundle_comment_create' ,
     { 'blog_id' : comment.blog.id }), 'method': 'POST', 'attr': {'class': 'blogger'} }) }}
-{{ form_widget(form) }}
- {{ formElements.recaptcha(recaptchaKey) }}
-<p>
-    <input type="submit" value="Submit">
-</p>
+{{ form_row(form.user) }}
+{{ form_row(form.comment) }}
+{{ formElements.recaptcha(captchaClientKey) }}
+{{ form_row(form.save) }}
 {{ form_end(form) }}

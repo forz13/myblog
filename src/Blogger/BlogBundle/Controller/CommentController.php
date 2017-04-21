@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Blogger\BlogBundle\Entity\Comment;
 use Blogger\BlogBundle\Form\CommentType;
 use Symfony\Component\HttpFoundation\Request;
-use ReCaptcha\ReCaptcha; // Include the recaptcha lib
+
 
 /**
  * Comment controller.
@@ -27,11 +27,11 @@ class CommentController extends Controller
         $comment->setBlog($blog);
         $form = $this->createForm(CommentType::class, $comment);
 
-        return $this->render('BloggerBlogBundle:Comment:form.html.twig', array(
-            'comment' => $comment,
-            'form' => $form->createView(),
-            'recaptchaKey' => $this->getParameter('recaptchakey')
-        ));
+        return $this->render('BloggerBlogBundle:Comment:form.html.twig', [
+            'comment'          => $comment,
+            'form'             => $form->createView(),
+            'captchaClientKey' => $this->get('blogger_blog.captcha')->getClientSecretKey()
+        ]);
     }
 
     /**
@@ -47,10 +47,10 @@ class CommentController extends Controller
         $comment->setBlog($blog);
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-        $recaptchaKey = $this->getParameter('recaptchakey');
-        $recaptcha = new ReCaptcha($recaptchaKey);
-        $recaptchaResp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
-        if ($form->isValid() && $recaptchaResp->isSuccess()) {
+        $captchaService = $this->get('blogger_blog.captcha');
+        $captchaResponse = $request->request->get('g-recaptcha-response');
+        $clientIp = $request->getClientIp();
+        if ($form->isValid() && $captchaService->verify($captchaResponse, $clientIp)) {
             $em = $this->getDoctrine()
                 ->getManager();
             $em->persist($comment);
@@ -60,14 +60,14 @@ class CommentController extends Controller
                     'id' => $comment->getBlog()->getId())) .
                 '#comment-' . $comment->getId()
             );
-        } else if ($form->isValid() && !$recaptchaResp->isSuccess()) {
-            $this->get('session')->getFlashBag()->add('blogger-error', 'Invalid recaptcha');
+        } else if ($form->isValid() && !$captchaService->verify($captchaResponse, $clientIp)) {
+            $this->get('session')->getFlashBag()->add('blogger-error', 'Validation captcha error!');
         }
-        return $this->render('BloggerBlogBundle:Comment:create.html.twig', array(
-            'comment' => $comment,
-            'form' => $form->createView(),
-            'recaptchaKey' => $recaptchaKey
-        ));
+        return $this->render('BloggerBlogBundle:Comment:create.html.twig', [
+            'comment'          => $comment,
+            'form'             => $form->createView(),
+            'captchaClientKey' => $captchaService->getClientSecretKey()
+        ]);
     }
 
     /**

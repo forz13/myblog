@@ -20,7 +20,7 @@
                     {% endif %}
                     {{ blog.blog |raw }}
                 </div>
-                <div class="comments heading">
+                <div class="comments">
                     {% for flashMessage in app.session.flashbag.get('blogger-notice') %}
                         <div class="blogger-notice">
                             {{ flashMessage }}
@@ -29,9 +29,11 @@
                     <h3>Comments</h3>
                     {% include 'BloggerBlogBundle:Comment:index.html.twig' with { 'comments': comments } %}
                 </div>
-                <div class="comment-bottom heading">
+                <div class="comments">
                     <h3>Leave a Comment</h3>
-                    {{ render(controller('BloggerBlogBundle:Comment:new',{ 'blog_id': blog.id })) }}
+                    <div class="col-md-8 contact-right">
+                        {{ render(controller('BloggerBlogBundle:Comment:new',{ 'blog_id': blog.id })) }}
+                    </div>
                 </div>
             </div>
         </div>

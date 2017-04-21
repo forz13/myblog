@@ -68,10 +68,12 @@ class PageController extends Controller
         $enquiry = new Enquiry();
 
         $form = $this->createForm(EnquiryType::class, $enquiry);
-
+        $captchaService = $this->get('blogger_blog.captcha');
         if ($request->isMethod($request::METHOD_POST)) {
             $form->handleRequest($request);
-            if ($form->isValid()) {
+            $captchaResponse = $request->request->get('g-recaptcha-response');
+            $clientIp = $request->getClientIp();
+            if ($form->isValid() && $captchaService->verify($captchaResponse, $clientIp)) {
                 $message = \Swift_Message::newInstance()
                     ->setSubject($enquiry->getSubject())
                     ->setFrom($enquiry->getEmail())
@@ -85,11 +87,14 @@ class PageController extends Controller
                 // the form if they refresh the page
                 return $this->redirect($this->generateUrl('BloggerBlogBundle_contact'));
 
+            } else if ($form->isValid() && !$captchaService->verify($captchaResponse, $clientIp)) {
+                $this->get('session')->getFlashBag()->add('blogger-error', 'Validation captcha error!');
             }
 
         }
         return $this->render('BloggerBlogBundle:Page:contact.html.twig', array(
-            'form' => $form->createView()
+            'form'             => $form->createView(),
+            'captchaClientKey' => $captchaService->getClientSecretKey()
         ));
     }
 

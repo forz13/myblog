@@ -5,6 +5,9 @@ namespace Blogger\BlogBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class CommentType extends AbstractType
 {
@@ -14,10 +17,11 @@ class CommentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('user');
-        $builder->add('comment');
+        $builder->add('user', TextType::class, ['attr' => ['placeholder' => 'your name'], 'label' => false]);
+        $builder->add('comment', TextareaType::class, ['attr' => ['placeholder' => 'comment'], 'label' => false]);
+        $builder->add('save', SubmitType::class, ['attr' => ['class' => 'about-btn'], 'label' => 'Send comment']);
     }
-    
+
     /**
      * {@inheritdoc}
      */
