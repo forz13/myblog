@@ -17,7 +17,7 @@ class PageController extends Controller
             ->getManager();
 
         $blogs = $em->getRepository('BloggerBlogBundle:Blog')
-            ->getLatestBlogs();
+            ->getLatestBlogs(5);
 
         return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
             'blogs' => $blogs,
@@ -77,7 +77,7 @@ class PageController extends Controller
                 $message = \Swift_Message::newInstance()
                     ->setSubject($enquiry->getSubject())
                     ->setFrom($enquiry->getEmail())
-                    ->setTo($this->container->getParameter('blogger_blog.emails.contact_email'))
+                    ->setTo($this->getParameter('blogger_blog.emails.contact_email'))
                     ->setBody($this->renderView('BloggerBlogBundle:Page:contactEmail.txt.twig', array('enquiry' => $enquiry)));
                 $this->get('mailer')->send($message);
 
